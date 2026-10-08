@@ -7,9 +7,10 @@
 class Database {
     // Configuración de la base de datos
     private $host = "localhost";
-    private $db_name = "sistema_inventario";
+    private $db_name = "database";
     private $username = "root";
     private $password = "";
+    private $port = "400";
     private $conn;
 
     /**

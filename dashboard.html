@@ -33,18 +33,92 @@ $usuario = getCurrentUser();
 </head>
 <body>
     <!-- Navegación -->
-    <nav class="navbar">
-        <a href="dashboard.php" class="navbar-brand">
-            📦 Sistema <span>Inventario</span>
-        </a>
-        <ul class="nav-menu">
-            <li><span class="nav-user">👋 <?php echo htmlspecialchars($usuario['nombre']); ?></span></li>
-            <li><a href="dashboard.php" class="active">Dashboard</a></li>
-            <li><a href="productos.php">Productos</a></li>
-            <li><a href="agregar_producto.php">Agregar</a></li>
-            <li><a href="logout.php">Cerrar Sesión</a></li>
-        </ul>
-    </nav>
+    <!-- Navegación Principal -->
+<nav class="navbar">
+    <a href="dashboard.php" class="navbar-brand">
+        📦 Sistema <span>Inventario</span>
+    </a>
+    
+    <ul class="nav-menu">
+        <!-- Usuario -->
+        <li class="nav-user-item">
+            <span class="nav-user"> <?php echo htmlspecialchars($usuario['nombre']); ?></span>
+        </li>
+        
+        <!-- Dashboard -->
+        <li>
+            <a href="dashboard.php" class="active">
+                🏠 Dashboard
+            </a>
+        </li>
+        
+        <!-- REGISTRO (Dropdown) -->
+        <li class="nav-dropdown">
+            <a href="#" class="dropdown-toggle">
+                📝 Registro 
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="registro_producto.php">📦 Producto</a></li>
+                <li><a href="registro_categoria.php">🏷️ Categoría</a></li>
+                <li><a href="registro_proveedor.php"> Proveedor</a></li>
+                <li><a href="registro_modelo.php"> Modelo</a></li>
+            </ul>
+        </li>
+        
+        <!-- MOVIMIENTOS (Dropdown) -->
+        <li class="nav-dropdown">
+            <a href="#" class="dropdown-toggle">
+                🔄 Movimientos ▾
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="entrada_compras.php">📥 Entrada / Compras</a></li>
+                <li><a href="salida_ventas.php">📤 Salidas / Ventas</a></li>
+                <li><a href="ajustes_stock.php">⚖️ Ajustes Stock</a></li>
+            </ul>
+        </li>
+        
+        <!-- HISTORIAL -->
+        <li>
+            <a href="historial.php">
+                📜 Historial
+            </a>
+        </li>
+        
+        <!-- REPORTES -->
+        <li>
+            <a href="reportes.php">
+                 Reportes
+            </a>
+        </li>
+        
+        <!-- CONFIGURACIÓN (Dropdown) -->
+        <li class="nav-dropdown">
+            <a href="#" class="dropdown-toggle">
+                ️ Configuración ▾
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="gestion_usuarios.php">👥 Gestión Usuarios</a></li>
+                <li><a href="respaldo_bd.php"> Respaldo BD</a></li>
+                <li><a href="manual_usuario.php">📘 Manual Usuario</a></li>
+                <li><a href="info_empresa.php">🏢 Información Empresa</a></li>
+            </ul>
+        </li>
+        
+        <!-- CERRAR SESIÓN -->
+        <li>
+            <a href="logout.php" class="btn-logout">
+                🚪 Salir
+            </a>
+        </li>
+    </ul>
+    
+    <!-- Botón hamburguesa para móvil -->
+    <button class="nav-toggle" id="navToggle" aria-label="Menú">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
 
     <!-- Banner Principal -->
     <div class="banner">

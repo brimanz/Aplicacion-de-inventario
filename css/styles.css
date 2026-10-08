@@ -810,3 +810,314 @@ body {
         font-size: 0.9rem;
     }
 }
+
+
+
+/* ============================================
+   NAVBAR CON DROPDOWNS - SISTEMA INVENTARIO
+   ============================================ */
+
+.navbar {
+    background-color: var(--negro);
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 70px;
+}
+
+.navbar-brand {
+    color: var(--blanco);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    padding: 1rem 0;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.navbar-brand span {
+    color: var(--fucsia);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 0;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-menu > li {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu > li > a {
+    color: var(--blanco);
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0 1.2rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 0.95rem;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-menu > li > a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: var(--fucsia);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-menu > li > a:hover {
+    color: var(--fucsia);
+    background-color: rgba(230, 0, 126, 0.1);
+}
+
+.nav-menu > li > a:hover::after {
+    width: 80%;
+}
+
+.nav-menu > li > a.active {
+    color: var(--fucsia);
+    border-bottom-color: var(--fucsia);
+}
+
+/* Usuario en navbar */
+.nav-user-item {
+    margin-right: 1rem;
+}
+
+.nav-user {
+    color: var(--dorado);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(212, 175, 55, 0.1);
+    border-radius: 20px;
+    border: 1px solid var(--dorado);
+}
+
+/* ============================================
+   DROPDOWN MENUS
+   ============================================ */
+
+.nav-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--blanco);
+    min-width: 220px;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+    border-top: 3px solid var(--fucsia);
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    display: block;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 0.8rem 1.2rem;
+    color: var(--negro);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.dropdown-menu li a:hover {
+    background-color: var(--fucsia-light);
+    color: var(--fucsia);
+    border-left-color: var(--fucsia);
+    padding-left: 1.5rem;
+}
+
+.dropdown-menu li a::before {
+    margin-right: 0.5rem;
+}
+
+/* Botón Salir */
+.btn-logout {
+    background-color: var(--fucsia);
+    color: var(--blanco);
+    border-radius: 20px;
+    margin-left: 1rem;
+    padding: 0.5rem 1.2rem !important;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: var(--fucsia-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(230, 0, 126, 0.4);
+}
+
+.btn-logout::after {
+    display: none !important;
+}
+
+/* ============================================
+   BOTÓN HAMBURGUESA (MÓVIL)
+   ============================================ */
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.nav-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--blanco);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 0 1rem;
+        flex-wrap: wrap;
+        height: auto;
+    }
+    
+    .nav-toggle {
+        display: flex;
+    }
+    
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        padding: 1rem 0;
+        gap: 0;
+    }
+    
+    .nav-menu.active {
+        display: flex;
+    }
+    
+    .nav-menu > li {
+        width: 100%;
+        height: auto;
+    }
+    
+    .nav-menu > li > a {
+        width: 100%;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-menu > li > a::after {
+        display: none;
+    }
+    
+    .nav-user-item {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .nav-dropdown {
+        position: static;
+    }
+    
+    .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border-top: none;
+        border-radius: 0;
+        background-color: rgba(255, 255, 255, 0.05);
+        display: none;
+    }
+    
+    .nav-dropdown.active .dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-menu li a {
+        color: var(--blanco);
+        padding-left: 2rem;
+    }
+    
+    .dropdown-menu li a:hover {
+        background-color: rgba(230, 0, 126, 0.2);
+        color: var(--fucsia);
+    }
+    
+    .btn-logout {
+        margin-left: 0;
+        margin-top: 1rem;
+        text-align: center;
+    }
+}
