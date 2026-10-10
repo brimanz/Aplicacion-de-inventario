@@ -1,23 +1,16 @@
 <?php
-/**
- * Dashboard Principal
- * Ubicación: dashboard.php
- */
-
-require_once 'includes/auth.php';
-require_once 'includes/functions.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/functions.php';
 
 requireLogin();
 
-// Obtener estadísticas
 $totalProductos = countProducts();
 $valorInventario = getTotalInventoryValue();
 $productosBajoStock = countLowStockProducts();
 $productosAgotados = countOutOfStockProducts();
 
-// Obtener productos recientes
 $conn = getDatabase();
-$stmt = $conn->prepare("SELECT * FROM productos ORDER BY created_at DESC LIMIT 5");
+$stmt = $conn->prepare("SELECT p.*, c.nombre as categoria FROM productos p LEFT JOIN categorias c ON p.categoria_id = c.id ORDER BY p.created_at DESC LIMIT 5");
 $stmt->execute();
 $productosRecientes = $stmt->fetchAll();
 
@@ -32,133 +25,67 @@ $usuario = getCurrentUser();
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Navegación -->
-    <!-- Navegación Principal -->
-<nav class="navbar">
-    <a href="dashboard.php" class="navbar-brand">
-        📦 Sistema <span>Inventario</span>
-    </a>
-    
-    <ul class="nav-menu">
-        <!-- Usuario -->
-        <li class="nav-user-item">
-            <span class="nav-user"> <?php echo htmlspecialchars($usuario['nombre']); ?></span>
-        </li>
-        
-        <!-- Dashboard -->
-        <li>
-            <a href="dashboard.php" class="active">
-                🏠 Dashboard
-            </a>
-        </li>
-        
-        <!-- REGISTRO (Dropdown) -->
-        <li class="nav-dropdown">
-            <a href="#" class="dropdown-toggle">
-                📝 Registro 
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="registro_producto.php">📦 Producto</a></li>
-                <li><a href="registro_categoria.php">🏷️ Categoría</a></li>
-                <li><a href="registro_proveedor.php"> Proveedor</a></li>
-                <li><a href="registro_modelo.php"> Modelo</a></li>
-            </ul>
-        </li>
-        
-        <!-- MOVIMIENTOS (Dropdown) -->
-        <li class="nav-dropdown">
-            <a href="#" class="dropdown-toggle">
-                🔄 Movimientos ▾
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="entrada_compras.php">📥 Entrada / Compras</a></li>
-                <li><a href="salida_ventas.php">📤 Salidas / Ventas</a></li>
-                <li><a href="ajustes_stock.php">⚖️ Ajustes Stock</a></li>
-            </ul>
-        </li>
-        
-        <!-- HISTORIAL -->
-        <li>
-            <a href="historial.php">
-                📜 Historial
-            </a>
-        </li>
-        
-        <!-- REPORTES -->
-        <li>
-            <a href="reportes.php">
-                 Reportes
-            </a>
-        </li>
-        
-        <!-- CONFIGURACIÓN (Dropdown) -->
-        <li class="nav-dropdown">
-            <a href="#" class="dropdown-toggle">
-                ️ Configuración ▾
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="gestion_usuarios.php">👥 Gestión Usuarios</a></li>
-                <li><a href="respaldo_bd.php"> Respaldo BD</a></li>
-                <li><a href="manual_usuario.php">📘 Manual Usuario</a></li>
-                <li><a href="info_empresa.php">🏢 Información Empresa</a></li>
-            </ul>
-        </li>
-        
-        <!-- CERRAR SESIÓN -->
-        <li>
-            <a href="logout.php" class="btn-logout">
-                🚪 Salir
-            </a>
-        </li>
-    </ul>
-    
-    <!-- Botón hamburguesa para móvil -->
-    <button class="nav-toggle" id="navToggle" aria-label="Menú">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-</nav>
+    <?php include 'includes/navbar.php'; ?>
 
-    <!-- Banner Principal -->
     <div class="banner">
         <h1>Bienvenido, <?php echo htmlspecialchars($usuario['nombre']); ?></h1>
         <p>Gestiona tu inventario de manera eficiente y profesional</p>
     </div>
 
-    <!-- Dashboard Content -->
     <div class="dashboard">
-        <!-- Tarjetas de Estadísticas -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="icon">📦</div>
                 <h3>Total Productos</h3>
                 <div class="value"><?php echo $totalProductos; ?></div>
             </div>
-            
             <div class="stat-card">
                 <div class="icon">💰</div>
                 <h3>Valor del Inventario</h3>
                 <div class="value">$<?php echo number_format($valorInventario, 2); ?></div>
             </div>
-            
             <div class="stat-card">
-                <div class="icon">️</div>
+                <div class="icon">⚠️</div>
                 <h3>Stock Bajo</h3>
                 <div class="value"><?php echo $productosBajoStock; ?></div>
             </div>
-            
             <div class="stat-card">
-                <div class="icon"></div>
+                <div class="icon">🚫</div>
                 <h3>Agotados</h3>
                 <div class="value"><?php echo $productosAgotados; ?></div>
             </div>
         </div>
 
-        <!-- Productos Recientes -->
+        <div class="modules-grid">
+            <a href="productos.php" class="module-card">
+                <div class="module-icon"></div>
+                <h3>Productos</h3>
+                <p>Gestiona todos los productos de tu inventario</p>
+                <span class="module-link">Ver productos →</span>
+            </a>
+            <a href="movimientos.php" class="module-card">
+                <div class="module-icon">🔄</div>
+                <h3>Movimientos</h3>
+                <p>Registra entradas, salidas y ajustes de stock</p>
+                <span class="module-link">Ver movimientos →</span>
+            </a>
+            <a href="historial.php" class="module-card">
+                <div class="module-icon">📋</div>
+                <h3>Historial</h3>
+                <p>Consulta el registro de todas las acciones</p>
+                <span class="module-link">Ver historial →</span>
+            </a>
+            <a href="reportes.php" class="module-card">
+                <div class="module-icon">📊</div>
+                <h3>Reportes</h3>
+                <p>Genera reportes detallados del inventario</p>
+                <span class="module-link">Ver reportes →</span>
+            </a>
+        </div>
+
         <div class="products-section">
             <div class="section-header">
-                <h2>📋 Productos Recientes</h2>
+                <h2> Productos Recientes</h2>
                 <a href="productos.php" class="btn btn-secondary">Ver Todos →</a>
             </div>
             
@@ -186,9 +113,9 @@ $usuario = getCurrentUser();
                             <tr>
                                 <td>#<?php echo $producto['id']; ?></td>
                                 <td><strong><?php echo htmlspecialchars($producto['nombre']); ?></strong></td>
-                                <td><?php echo htmlspecialchars($producto['categoria']); ?></td>
+                                <td><?php echo htmlspecialchars($producto['categoria'] ?? 'Sin categoría'); ?></td>
                                 <td>$<?php echo number_format($producto['precio'], 2); ?></td>
-                                <td><?php echo $producto['stock']; ?> unidades</td>
+                                <td><?php echo $producto['stock']; ?></td>
                                 <td>
                                     <?php if ($producto['stock'] > 10): ?>
                                         <span class="badge badge-success">Disponible</span>
@@ -207,7 +134,6 @@ $usuario = getCurrentUser();
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
         <p>© 2024 Sistema de Inventario | Desarrollado con <span>♥</span> usando PHP + MySQL</p>
     </div>
